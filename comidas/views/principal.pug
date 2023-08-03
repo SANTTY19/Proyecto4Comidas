@@ -1,0 +1,181 @@
+//- principal.pug
+doctype html
+html
+  head
+    title Página Principal
+    style.
+      @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #76b852;
+        background: rgb(141, 194, 111);
+        background: linear-gradient(90deg, rgba(141, 194, 111, 1) 0%, rgba(118, 184, 82, 1) 50%);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+
+      ul#product-list {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      ul#product-list li {
+        margin: 10px;
+        text-align: center;
+        background: #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+      }
+
+      ul#product-list li span {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      ul#product-list li button {
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      ul#product-list li button:hover {
+        background-color: #43A047;
+      }
+
+      .mi-cuenta-link,
+      .mis-productos-link,
+      .cerrar-sesion-link {
+        position: absolute;
+        top: 10px;
+        color: white;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      .mi-cuenta-link {
+        left: 10px;
+        font-size: 18px;
+      }
+
+      .mis-productos-link {
+        left: 100px;
+        font-size: 18px;
+      }
+
+      .cerrar-sesion-link {
+        right: 10px;
+        font-size: 18px;
+      }
+
+  body
+    div.container
+      a.mi-cuenta-link(href="/micuenta") Mi Cuenta
+      a.mis-productos-link(href="/misproductos") Mis Productos
+      a.cerrar-sesion-link(href="/") Cerrar Sesión
+      h2 Menú de Productos
+      ul#product-list
+        li
+          span Big Mac - Precio ₡3 200
+          button(onclick="ordenarProducto('Big Mac', 3200)") Ordenar
+
+        li
+          span Triple con bacon - Precio ₡3 490
+          button(onclick="ordenarProducto('Triple con bacon', 3490)") Ordenar
+
+        li
+          span Chicken Delux - Precio ₡3 590
+          button(onclick="ordenarProducto('Chicken Delux', 3590)") Ordenar
+
+        li
+          span Nuggets - Precio ₡1 050
+          button(onclick="ordenarProducto('Nuggets', 1050)") Ordenar
+
+        li
+          span Ensalada Cesar - Precio ₡4 850
+          button(onclick="ordenarProducto('Ensalada Cesar', 4850)") Ordenar
+        
+        li
+          span Papas Medianas - Precio ₡1 450
+          button(onclick="ordenarProducto('Papas Medianas', 1450)") Ordenar
+        
+        li
+          span Cajita Feliz  - Precio ₡3 800
+          button(onclick="ordenarProducto('Cajita Feliz', 3800)") Ordenar
+        
+        li
+          span McFlurry  - Precio ₡1 750
+          button(onclick="ordenarProducto('McFlurry', 1750)") Ordenar
+
+      // Elemento para mostrar el código aleatorio generado
+      p#codigo-aleatorio(style="font-size: 24px; margin-top: 20px; text-align: center;")
+
+    script.
+      // Variable global para almacenar el código aleatorio
+      let codigoAleatorio;
+
+      function ordenarProducto(producto, precio) {
+        // Generar un código aleatorio si aún no existe
+        if (!codigoAleatorio) {
+          codigoAleatorio = generateRandomCode();
+        }
+
+        // Mostrar el código aleatorio en el elemento correspondiente
+        document.getElementById('codigo-aleatorio').innerText = `Numero de orden: ${codigoAleatorio}`;
+
+        // Enviar los detalles del producto al servidor mediante una solicitud POST
+        fetch('/guardar-producto', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            nombre: producto,
+            precio: precio,
+            orden: codigoAleatorio,
+          }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          // Puedes hacer algo con la respuesta del servidor si lo deseas
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error('Error al guardar el producto:', error);
+        });
+
+        // Implementa la lógica para ordenar el producto seleccionado
+        alert("Producto ordenado: " + producto);
+      }
+
+      function generateRandomCode() {
+        // Generar un número aleatorio entre 100000 y 999999
+        const randomNum = Math.floor(Math.random() * 900000) + 100000;
+
+        // Devolver el número aleatorio como código
+        return randomNum;
+      }

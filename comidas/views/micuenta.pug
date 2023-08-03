@@ -1,0 +1,102 @@
+doctype html
+html
+  head
+    title Mi Cuenta
+  body
+    style.
+      body {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Align items to the left */
+        justify-content: flex-start; /* Align content to the top */
+        min-height: 100vh;
+        background: #76b852;
+        background: rgb(141, 194, 111);
+        background: linear-gradient(90deg, rgba(141, 194, 111, 1) 0%, rgba(118, 184, 82, 1) 50%);
+        padding: 20px; /* Add padding to the container */
+      }
+
+      h1 {
+        color: #fff;
+        text-align: left; /* Align the heading to the left */
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        color: #fff;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"] {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #43a047;
+      }
+
+      p {
+        color: #fff;
+        text-align: left; /* Align the paragraph to the left */
+        font-size: 18px;
+        margin: 10px;
+      }
+
+      p.error-message {
+        color: red;
+      }
+
+      /* Link styles for the navigation links */
+      a.nav-link {
+        color: #fff;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+    .container
+      a.nav-link(href="/principal") Volver
+      h1 Mi Cuenta
+
+      form(action="/micuenta" method="POST")
+        label(for="cedula") Ingrese su número de cédula:
+        input(type="text" id="cedula" name="cedula" required)
+        button(type="submit") Filtrar
+
+      // Mostrar los datos del usuario si están disponibles
+      if user
+        p Cédula: #{user.cedula}
+        p Nombre: #{user.nombre}
+        p Apellido: #{user.apellido}
+        p Teléfono: #{user.telefono}
+        p Correo: #{user.correo}
+        p Usuario: #{user.usuario}
+        p Contraseña: #{user.contrasenia}
+      else
+        // Mostrar mensaje de error si el usuario no fue encontrado
+        p.error-message #{errorMessage}
